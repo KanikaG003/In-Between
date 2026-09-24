@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500;1,600&family=Jost:wght@400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500;1,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --sky-top: #03061A;
@@ -164,7 +164,7 @@
     background: radial-gradient(50% 45% at 50% 48%, rgba(3,5,22,.5), transparent 80%); }
   .cover-inner::before { content: ""; position: absolute; inset: 8px; border: 1px solid rgba(232,199,126,.2); border-radius: 6px; pointer-events: none; }
   .site-book .face .cover-star { color: #E8C77E; font-size: 1.2rem; letter-spacing: .8em; margin: 0 -.8em 0 0; }
-  .site-book .face .cover-name { font: 400 clamp(4.2rem, 15vw, 9rem)/1 "Great Vibes", cursive; color: #FFF3DA; margin: 0;
+  .site-book .face .cover-name { font: italic 600 clamp(4.2rem, 15vw, 9rem)/.85 var(--serif); color: #FFF3DA; margin: 0;
     text-shadow: 0 2px 6px rgba(0,0,0,.9), 0 0 30px rgba(2,4,20,.95), 0 0 60px rgba(255,210,150,.35); }
   .site-book .face .cover-title { font: italic 600 clamp(1.4rem, 3.5vw, 2rem)/1.3 var(--serif); color: #E8C77E; margin: 0; }
   .site-book .face .cover-hint { font-size: .9rem; color: #D8C79C; margin: 0; }
@@ -206,7 +206,7 @@
   .edge.left:hover { color: rgba(240,201,138,.9); background: linear-gradient(90deg, rgba(240,201,138,.12), transparent); }
   .edge:disabled { display: none; }
   @media (max-width: 760px) {
-    .topnav { gap: .2rem 1rem; font-size: 1rem; }
+    .topnav { gap: .15rem .9rem; font-size: .92rem; }
     .site-book .face { padding-top: 6rem; padding-bottom: 7rem; }
     .site-book .face p { font-size: 1rem; line-height: 1.7; }
     .edge { display: none; }
@@ -236,6 +236,176 @@
     text-shadow: 0 0 10px #000; pointer-events: none; opacity: 0; transition: opacity .3s; }
   .corner:hover + .corner-tip { opacity: 1; }
   @media (max-width: 760px) { .corner { width: 48px; height: 48px; } .corner-tip { display: none; } }
+
+  /* ---------- The galaxy map: every chapter is a world in the sky ---------- */
+  .site-book .face.map { max-width: none; width: 100%; min-height: 100%; margin: 0; padding: 0; position: relative; background: none; }
+  .orbits { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  .orbits ellipse { fill: none; stroke: rgba(232,199,126,.28); stroke-width: 1.2; vector-effect: non-scaling-stroke; stroke-dasharray: 3 7; animation: orbitDash 40s linear infinite; }
+  .orbits ellipse.inner { stroke: rgba(190,205,255,.22); animation-duration: 28s; animation-direction: reverse; }
+  @keyframes orbitDash { to { stroke-dashoffset: -400; } }
+  .orb { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: .35rem;
+    text-align: center; text-decoration: none; border: 0 !important; color: #FFF !important; z-index: 2; }
+  .orb .orb-body { width: var(--size, clamp(76px, 9vw, 112px)); aspect-ratio: 1; animation: float 6s ease-in-out infinite; animation-delay: var(--delay, 0s); }
+  .orb .icon { width: 100%; height: 100%; overflow: visible; transition: transform .45s cubic-bezier(.3,.7,.4,1), filter .45s; filter: drop-shadow(0 0 10px rgba(255,220,160,.35)); }
+  .orb:hover .icon, .orb:focus-visible .icon { transform: scale(1.14); filter: drop-shadow(0 0 22px rgba(255,220,160,.8)); }
+  .orb:focus-visible { outline: none; }
+  .orb-label { font: italic 600 clamp(1.25rem, 2.2vw, 1.6rem)/1 var(--serif); color: #F0C98A; text-shadow: 0 0 12px #000, 0 0 24px #000; }
+  .orb-sub { font-size: .8rem; color: #D2D6F2; text-shadow: 0 0 10px #000; margin-top: -.1rem; }
+  .orb.center { --size: clamp(120px, 15vw, 190px); }
+  .orb.center .orb-label { font-size: clamp(1.5rem, 2.8vw, 2rem); color: #FFF3DA; }
+  .map-hint { position: absolute; left: 0; right: 0; bottom: 92px; text-align: center; font: italic 500 1.05rem var(--serif); color: #D8C79C; text-shadow: 0 0 12px #000; pointer-events: none; }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+  /* gentle life inside each world */
+  .icon .tw { animation: tw 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .icon .tw.d1 { animation-delay: .6s; } .icon .tw.d2 { animation-delay: 1.2s; } .icon .tw.d3 { animation-delay: 1.8s; }
+  @keyframes tw { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .25; transform: scale(.6); } }
+  .icon-star .rays, .icon-core path:not([fill="none"]) { animation: pulse 3.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(.82); opacity: .8; } }
+  .icon-core .spin { animation: spin 18s linear infinite; transform-origin: 50px 50px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .icon-planet .ring { animation: ringRun 6s linear infinite; }
+  @keyframes ringRun { to { stroke-dashoffset: -60; } }
+  .icon-nebula .cloud { animation: breathe 7s ease-in-out infinite; transform-origin: 50px 52px; }
+  @keyframes breathe { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.08) rotate(8deg); } }
+  .icon-comet .tail { animation: tail 2.4s ease-in-out infinite; }
+  @keyframes tail { 0%, 100% { opacity: 1; } 50% { opacity: .6; } }
+  /* each chapter page wears its own world at the top */
+  .chapter-icon { display: block; width: 92px; height: 92px; margin: 0 auto .6rem; }
+  .chapter-icon .icon { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 14px rgba(255,220,160,.45)); }
+  @media (max-width: 760px) {
+    .orb .orb-body { --size: 72px; }
+    .orb.center { --size: 112px; }
+    .orb-sub { display: none; }
+    .map-hint { bottom: 88px; font-size: .95rem; }
+  }
+
+  /* ---------- Writing: the published books on a floating shelf ---------- */
+  .site-book .face.wide { max-width: 58rem; }
+  .shelf { display: flex; justify-content: center; align-items: flex-start; gap: clamp(1.5rem, 6vw, 5rem); flex-wrap: wrap; margin: 0 0 1.4rem; }
+  .book3d { margin: 0; display: flex; flex-direction: column; align-items: center; width: 220px; }
+  .book3d-stage { perspective: 1100px; height: 244px; display: flex; align-items: center; animation: float 6s ease-in-out infinite; }
+  .book3d:nth-child(2) .book3d-stage { animation-delay: 1.5s; }
+  .book3d-inner { position: relative; width: 158px; height: 232px; transform-style: preserve-3d; transform: rotateY(-30deg) rotateX(5deg);
+    transition: transform .7s cubic-bezier(.3,.7,.4,1); }
+  .book3d:hover .book3d-inner { transform: rotateY(-6deg) rotateX(2deg) translateY(-6px); }
+  .b-front, .b-back, .b-spine, .b-pages { position: absolute; }
+  .b-front { inset: 0; transform: translateZ(14px); text-shadow: none !important; border-radius: 2px 7px 7px 2px; overflow: hidden; padding: 1.1rem .9rem;
+    display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center;
+    box-shadow: inset 4px 0 8px rgba(0,0,0,.45), inset 0 0 0 1px rgba(232,199,126,.35); text-shadow: none; }
+  .b-front::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,255,255,.18) 50%, rgba(255,255,255,0) 60%);
+    transform: translateX(-100%); transition: transform 1s; }
+  .book3d:hover .b-front::after { transform: translateX(100%); }
+  .b-back { inset: 0; transform: rotateY(180deg) translateZ(14px); border-radius: 7px 2px 2px 7px; background: #0A0F2E; }
+  .b-spine { top: 0; left: -14px; width: 28px; height: 100%; transform: rotateY(-90deg); background: linear-gradient(90deg, #070A22, #1B1B5A 50%, #070A22);
+    display: flex; align-items: center; justify-content: center; }
+  .b-spine span { writing-mode: vertical-rl; transform: rotate(180deg); font: italic 600 .72rem var(--serif); color: #E8C77E; letter-spacing: .06em; white-space: nowrap; }
+  .b-pages { top: 3px; right: -13px; width: 26px; height: calc(100% - 6px); transform: rotateY(90deg);
+    background: repeating-linear-gradient(90deg, #F4EDDC 0 1px, #D6CBB2 1px 2px); }
+  .book3d-shadow { width: 150px; height: 18px; margin-top: -4px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.6), transparent); }
+  .site-book .face .b-star { margin: 0; line-height: 1; color: #E8C77E; font-size: .8rem; letter-spacing: .5em; margin-right: -.5em; }
+  .site-book .face .b-title { font: italic 600 1.35rem/1.1 var(--serif); color: #F3D48E; margin: 0 !important; }
+  .site-book .face .b-sub { font: italic 500 .85rem/1.25 var(--serif); color: #F3E3BC; margin: .45rem 0 0 !important; }
+  .site-book .face .b-author { line-height: 1; white-space: nowrap; font: 500 .66rem var(--sans); letter-spacing: .18em; color: #F3E3BC; margin: 0 !important; }
+  .cover-chaos { background:
+      radial-gradient(circle at 72% 28%, rgba(255,205,140,.6), transparent 32%),
+      radial-gradient(circle at 26% 74%, rgba(110,140,255,.55), transparent 38%),
+      conic-gradient(from 200deg at 50% 52%, #0A0F2E, #2B1660, #0A0F2E, #3A1A4E, #0A0F2E); }
+  .cover-unspoken { background:
+      radial-gradient(circle at 64% 25%, #2A1845 0 11%, transparent 11.5%),
+      radial-gradient(circle at 58% 29%, #FFF4DC 0 12%, transparent 12.5%),
+      radial-gradient(circle at 58% 29%, rgba(255,220,170,.35), transparent 30%),
+      linear-gradient(170deg, #3B1D4C, #15173F 62%, #0A0F2E); }
+  .book-cap { text-align: center; margin-top: .6rem; }
+  .site-book .face .book-cap .cap-title { font: italic 600 1.3rem/1.2 var(--serif); color: #FFF; margin: 0; }
+  .site-book .face .book-cap .cap-sub { font: italic 500 1rem/1.3 var(--serif); color: #F0C98A; margin: .15rem 0 .5rem; }
+  .pill { display: inline-block; border: 1px solid rgba(232,199,126,.55); border-radius: 999px; padding: .2rem .8rem; font-size: .78rem; color: #F3E3BC; background: rgba(8,12,40,.65); }
+  .paper-card { max-width: 34rem; margin: 0 auto; display: flex; gap: 1.1rem; align-items: center; padding: 1rem 1.3rem; border-radius: 14px;
+    border: 1px solid rgba(232,199,126,.35); background: rgba(8,12,40,.6); }
+  .paper-card svg { flex: none; width: 46px; height: 56px; }
+  .site-book .face .paper-card p { margin: 0; }
+  .site-book .face .paper-card .name { font-size: 1.2rem; }
+
+  /* ---------- Study: a journey from first light to a full orbit ---------- */
+  .journey { display: flex; align-items: center; justify-content: center; gap: .5rem; margin-top: .5rem; }
+  .station { text-align: center; width: 15rem; }
+  .station.big { width: 22rem; }
+  .st-icon { width: 96px; height: 96px; margin: 0 auto .4rem; }
+  .st-icon .icon { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 14px rgba(255,220,160,.45)); }
+  .site-book .face .st-years { font: italic 600 1.05rem var(--serif); color: #F0C98A; margin: 0 0 .2rem; }
+  .site-book .face .station .name { font-size: 1.45rem; }
+  .site-book .face .station .detail { margin-top: .25rem; }
+  .st-tag { display: block; font: italic 500 .95rem var(--serif); color: #D8C79C; margin-bottom: .6rem; }
+  .system { position: relative; width: 290px; height: 250px; margin: 0 auto .4rem; display: flex; align-items: center; justify-content: center; }
+  .system::before { content: ""; position: absolute; width: 236px; height: 236px; border-radius: 50%; border: 1px dashed rgba(232,199,126,.4); }
+  .system .st-icon { width: 104px; height: 104px; margin: 0; }
+  .sat-orbit { position: absolute; left: 50%; top: 50%; width: 0; height: 0; animation: spin 40s linear infinite; }
+  .sat { position: absolute; left: 0; top: 0; transform: rotate(var(--a)) translateX(118px) rotate(calc(-1 * var(--a))); }
+  .sat b { position: absolute; width: 0; height: 0; animation: spin 40s linear infinite reverse; }
+  .sat i { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font-style: normal; font-size: .78rem; font-weight: 500;
+    padding: .25rem .7rem; border-radius: 999px; border: 1px solid rgba(232,199,126,.6); background: rgba(8,12,40,.85); color: #FFF3DA;
+    box-shadow: 0 0 12px rgba(232,199,126,.25); }
+  .trajectory { position: relative; flex: 1; max-width: 11rem; min-width: 5rem; height: 2px; margin-bottom: 5rem;
+    background: repeating-linear-gradient(90deg, rgba(232,199,126,.65) 0 6px, transparent 6px 12px); }
+  .trajectory::after { content: "2024"; position: absolute; left: 50%; top: -1.8rem; transform: translateX(-50%); font: italic 600 .95rem var(--serif); color: #D8C79C; }
+  .comet-dot { position: absolute; top: 50%; left: 0; width: 10px; height: 10px; border-radius: 50%; background: #FFF;
+    box-shadow: -14px 0 12px 2px rgba(191,210,255,.55), 0 0 12px 3px rgba(255,230,190,.8); transform: translate(-50%, -50%); animation: travel 3.2s ease-in-out infinite; }
+  @keyframes travel { 0% { left: 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+  @media (max-width: 760px) {
+    .journey { flex-direction: column; gap: 0; }
+    .trajectory { width: 2px; height: 70px; flex: none; min-width: 0; margin: .4rem 0 .6rem;
+      background: repeating-linear-gradient(180deg, rgba(232,199,126,.65) 0 6px, transparent 6px 12px); }
+    .trajectory::after { left: 1rem; top: 50%; transform: translateY(-50%); }
+    .comet-dot { left: 50%; animation-name: travelV; }
+    @keyframes travelV { 0% { top: 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+    .system { width: 100%; max-width: 330px; height: 230px; }
+    .system::before { width: 210px; height: 210px; }
+    .sat { transform: rotate(var(--a)) translateX(105px) rotate(calc(-1 * var(--a))); }
+    .sat i { font-size: .7rem; padding: .2rem .55rem; }
+    .station, .station.big { width: 100%; }
+    .book3d-stage { height: 230px; }
+  }
+
+  /* ---------- Chapter titles with a poetic subline ---------- */
+  .site-book .face h2 { margin-bottom: .35rem; }
+  .site-book .face .h2-sub { text-align: center; font: italic 500 1.15rem var(--serif); color: #D8C79C; margin: 0 0 1.8rem; letter-spacing: .02em; }
+  .site-book .face .h2-sub::before, .site-book .face .h2-sub::after { content: "✦"; font-size: .7rem; color: #E8C77E; margin: 0 .7rem; vertical-align: middle; }
+  /* ---------- The North Star: about, as a poem ---------- */
+  .site-book .face .about-poem { text-align: center; font: italic 500 clamp(1rem, 1.5vw, 1.16rem)/1.45 var(--serif); color: #FFFFFF; }
+  .site-book .face .about-poem p { font: inherit; margin: 0 0 .85rem; }
+  .site-book .face .about-poem p span { display: block; }
+  .site-book .face .about-poem .hl { color: #F0C98A; }
+  .site-book .face .about-poem p:last-child { margin-bottom: 0; }
+  /* ---------- Orbits travelled: every journey is its own world ---------- */
+  .site-book .face.sky { max-width: none; width: 100%; min-height: 100%; margin: 0; padding: 0; position: relative; background: none; }
+  .sky-head { position: absolute; left: 0; right: 0; top: 64px; text-align: center; z-index: 3; }
+  .exp-sky { position: absolute; inset: 0; }
+  .exp-sky .orbits ellipse { stroke: rgba(232,199,126,.25); }
+  .xp { position: absolute; transform: translate(-50%, -50%); width: 15rem; display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 2; }
+  .xp .xp-body { width: 70px; height: 70px; animation: float 6s ease-in-out infinite; animation-delay: var(--delay, 0s); }
+  .xp .icon { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 12px rgba(255,220,160,.45)); transition: transform .45s; }
+  .xp:hover .icon { transform: scale(1.15); }
+  .site-book .face .xp p { margin: 0; line-height: 1.3; }
+  .site-book .face .xp .xp-name { font: 600 1.3rem/1.2 var(--serif); color: #FFFFFF; margin-top: .3rem; }
+  .site-book .face .xp .xp-role { font-size: .88rem; color: #D2D6F2; }
+  .site-book .face .xp .xp-when { font: italic 600 .98rem var(--serif); color: #F0C98A; }
+  .xp.center { width: 21rem; }
+  .xp.center .xp-body { width: 118px; height: 118px; }
+  .site-book .face .xp.center .xp-name { font-size: 1.7rem; }
+  .xp-roles { display: flex; flex-wrap: wrap; justify-content: center; gap: .35rem; margin: .45rem 0 .3rem; }
+  .xp-roles span { font-size: .74rem; padding: .15rem .6rem; border-radius: 999px; border: 1px solid rgba(232,199,126,.5); background: rgba(8,12,40,.75); color: #FFF3DA; }
+  .icon-sun .corona { animation: spin 30s linear infinite; transform-origin: 50px 50px; }
+  @media (max-width: 760px) {
+    .site-book .face.sky { padding: 6.2rem 1rem 7.5rem; }
+    .sky-head { position: static; }
+    .exp-sky { position: static; display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem .8rem; margin-top: 1.2rem; }
+    .exp-sky .orbits { display: none; }
+    .xp, .xp.center { position: static; transform: none; width: auto; }
+    .xp.center { grid-column: 1 / -1; }
+    .xp.center .xp-body { width: 96px; height: 96px; }
+    .xp .xp-body { width: 58px; height: 58px; }
+    .site-book .face .xp .xp-name { font-size: 1.15rem; }
+    .site-book .face .xp .xp-role { font-size: .8rem; }
+  }
   /* ---------- Reading a real book: two-page spread, pages turn over the spine ---------- */
   .site-book.spread .leaf { left: 50%; right: auto; width: 50%; }
   .site-book.spread .face { max-width: 38rem; padding: 6rem clamp(1.5rem, 3.5vw, 3.2rem) 7.5rem; }
@@ -329,12 +499,24 @@
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="gStar"><stop offset="0" stop-color="#FFFDF4"/><stop offset=".3" stop-color="#FFE3A6"/><stop offset=".62" stop-color="#FFB86B" stop-opacity=".55"/><stop offset="1" stop-color="#FF9A50" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gPlanet" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#C9D6FF"/><stop offset=".45" stop-color="#7C6CF0"/><stop offset="1" stop-color="#2A1C6E"/></radialGradient>
+    <radialGradient id="gMoon" cx=".35" cy=".35" r=".75"><stop offset="0" stop-color="#FFFBF0"/><stop offset=".6" stop-color="#F3E3BC"/><stop offset="1" stop-color="#C9A15A"/></radialGradient>
+    <radialGradient id="gCore"><stop offset="0" stop-color="#FFFDF6"/><stop offset=".22" stop-color="#FFE2B0"/><stop offset=".5" stop-color="#F29A7A" stop-opacity=".45"/><stop offset="1" stop-color="#8A5CFF" stop-opacity="0"/></radialGradient>
+    <linearGradient id="gTail" gradientUnits="userSpaceOnUse" x1="76" y1="26" x2="14" y2="80"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".95"/><stop offset=".35" stop-color="#BFD2FF" stop-opacity=".55"/><stop offset="1" stop-color="#8A5CFF" stop-opacity="0"/></linearGradient>
+    <mask id="mMoon"><rect width="100" height="100" fill="white"/><circle cx="64" cy="38" r="30" fill="black"/></mask>
+    <filter id="fSoft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+</svg>
+
 <div class="sky" aria-hidden="true"></div>
 <canvas id="stars" aria-hidden="true"></canvas>
 
 <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Kanika Garg</h1>
 <nav class="topnav" aria-label="Chapters">
-  <a href="#" data-go="3">about</a><a href="#" data-go="4">writing</a><a href="#" data-go="5">experience</a><a href="#" data-go="7">learning</a><a href="#" data-go="9">contact</a>
+  <a href="#" data-go="3">the North Star</a><a href="#" data-go="4">written in stars</a><a href="#" data-go="5">orbits travelled</a><a href="#" data-go="6">full orbit</a><a href="#" data-go="7">stardust</a><a href="#" data-go="8">send a comet</a>
 </nav>
 <div class="site-book" id="sitebook"></div>
 <button type="button" class="edge left" id="edgeLeft" aria-label="Previous page">‹</button>
@@ -369,78 +551,168 @@
     <span class="folio">1</span>
   </article>
 
-  <article class="face">
-    <svg class="constellation" viewBox="0 0 120 36" aria-hidden="true"><line x1="8" y1="26" x2="40" y2="10"/><line x1="40" y1="10" x2="72" y2="22"/><line x1="72" y1="22" x2="112" y2="8"/><circle cx="8" cy="26" r="2"/><circle cx="40" cy="10" r="2.5"/><circle cx="72" cy="22" r="1.8"/><circle cx="112" cy="8" r="2.2"/></svg>
-    <h2>contents</h2>
-    <ul class="toc">
-      <li><a href="#" data-go="3"><span>about</span><span class="lead"></span><span class="pg">3</span></a></li>
-      <li><a href="#" data-go="4"><span>writing</span><span class="lead"></span><span class="pg">4</span></a></li>
-      <li><a href="#" data-go="5"><span>experience</span><span class="lead"></span><span class="pg">5</span></a></li>
-      <li><a href="#" data-go="7"><span>learning</span><span class="lead"></span><span class="pg">7</span></a></li>
-      <li><a href="#" data-go="8"><span>stardust</span><span class="lead"></span><span class="pg">8</span></a></li>
-      <li><a href="#" data-go="9"><span>contact</span><span class="lead"></span><span class="pg">✦</span></a></li>
-    </ul>
-    <span class="folio">2</span>
+  <article class="face map">
+    <svg class="orbits" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <ellipse cx="50" cy="51" rx="34" ry="31"/>
+      <ellipse class="inner" cx="50" cy="51" rx="18.7" ry="17.1"/>
+    </svg>
+    <a class="orb center" href="#" data-go="3" style="left:50%;top:51%" aria-label="the North Star">
+      <span class="orb-body"><svg class="icon icon-core" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="49" fill="url(#gCore)"/><g class="spin" fill="none" stroke="rgba(255,226,176,.55)" stroke-width="1.6"><path d="M50 50 C 62 38, 80 44, 84 60"/><path d="M50 50 C 38 62, 20 56, 16 40"/></g><path d="M50 16 L53 47 L84 50 L53 53 L50 84 L47 53 L16 50 L47 47Z" fill="#FFF8E6"/><circle cx="50" cy="50" r="8" fill="#FFFFFF"/></svg></span>
+      <span class="orb-label">the North Star</span><span class="orb-sub">who I am</span>
+    </a>
+    <a class="orb" href="#" data-go="4" style="left:50.0%;top:20.0%" aria-label="written in stars">
+      <span class="orb-body" style="--delay:0s"><svg class="icon icon-planet" viewBox="0 0 100 100" aria-hidden="true"><g transform="rotate(-18 50 52)"><path d="M4 52 A46 13 0 0 1 96 52" fill="none" stroke="#E8C77E" stroke-width="3" opacity=".55"/></g><circle cx="50" cy="50" r="25" fill="url(#gPlanet)"/><path d="M28 44 Q50 38 72 46" stroke="rgba(255,255,255,.25)" stroke-width="2.5" fill="none"/><path d="M27 55 Q50 50 73 57" stroke="rgba(255,255,255,.15)" stroke-width="2" fill="none"/><g transform="rotate(-18 50 52)"><path class="ring" d="M4 52 A46 13 0 0 0 96 52" fill="none" stroke="#F3D48E" stroke-width="3.2" stroke-dasharray="6 4"/></g></svg></span>
+      <span class="orb-label">written in stars</span><span class="orb-sub">constellations of ink</span>
+    </a>
+    <a class="orb" href="#" data-go="5" style="left:82.3%;top:41.4%" aria-label="orbits travelled">
+      <span class="orb-body" style="--delay:.9s"><svg class="icon icon-const" viewBox="0 0 100 100" aria-hidden="true"><g stroke="rgba(232,199,126,.65)" stroke-width="1.4" fill="none"><path d="M14 72 L34 42 L55 56 L74 24 L90 46"/><path d="M34 42 L42 18"/></g><g fill="#FFF3D6"><circle class="tw" cx="14" cy="72" r="3.2"/><circle class="tw d1" cx="34" cy="42" r="4.2"/><circle class="tw d2" cx="55" cy="56" r="3"/><circle class="tw d3" cx="74" cy="24" r="4.6"/><circle class="tw d1" cx="90" cy="46" r="3.2"/><circle class="tw d2" cx="42" cy="18" r="2.6"/></g></svg></span>
+      <span class="orb-label">orbits travelled</span><span class="orb-sub">journeys</span>
+    </a>
+    <a class="orb" href="#" data-go="6" style="left:70.0%;top:76.1%" aria-label="full orbit">
+      <span class="orb-body" style="--delay:1.8s"><svg class="icon icon-moon" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="rgba(255,230,180,.12)" filter="url(#fSoft)"/><circle cx="50" cy="52" r="34" fill="url(#gMoon)" mask="url(#mMoon)"/><g fill="#FFF6DE"><circle class="tw" cx="80" cy="22" r="2.4"/><circle class="tw d2" cx="72" cy="66" r="1.8"/></g></svg></span>
+      <span class="orb-label">full orbit</span><span class="orb-sub">where I learned to shine</span>
+    </a>
+    <a class="orb" href="#" data-go="7" style="left:30.0%;top:76.1%" aria-label="stardust">
+      <span class="orb-body" style="--delay:1.8s"><svg class="icon icon-nebula" viewBox="0 0 100 100" aria-hidden="true"><g filter="url(#fSoft)" class="cloud"><circle cx="38" cy="52" r="22" fill="#A56CFF" opacity=".75"/><circle cx="62" cy="44" r="20" fill="#FF7AC8" opacity=".6"/><circle cx="55" cy="64" r="18" fill="#6F8DFF" opacity=".65"/></g><g fill="#FFFFFF"><circle class="tw" cx="30" cy="40" r="1.8"/><circle class="tw d1" cx="64" cy="36" r="2.4"/><circle class="tw d2" cx="50" cy="56" r="3"/><circle class="tw d3" cx="70" cy="64" r="1.6"/><circle class="tw d1" cx="40" cy="68" r="1.4"/></g></svg></span>
+      <span class="orb-label">stardust</span><span class="orb-sub">little lights</span>
+    </a>
+    <a class="orb" href="#" data-go="8" style="left:17.7%;top:41.4%" aria-label="send a comet">
+      <span class="orb-body" style="--delay:.9s"><svg class="icon icon-comet" viewBox="0 0 100 100" aria-hidden="true"><path class="tail" d="M78 20 L10 72 L20 84 L84 30 Z" fill="url(#gTail)"/><circle cx="80" cy="25" r="16" fill="url(#gStar)"/><circle cx="80" cy="25" r="5.5" fill="#FFFFFF"/></svg></span>
+      <span class="orb-label">send a comet</span><span class="orb-sub">write back to me</span>
+    </a>
+    <p class="map-hint">tap a world to travel there</p>
   </article>
 
   <article class="face">
-    <svg class="constellation" viewBox="0 0 120 36" aria-hidden="true"><line x1="10" y1="12" x2="46" y2="28"/><line x1="46" y1="28" x2="80" y2="6"/><line x1="80" y1="6" x2="110" y2="24"/><circle cx="10" cy="12" r="2.2"/><circle cx="46" cy="28" r="1.8"/><circle cx="80" cy="6" r="2.6"/><circle cx="110" cy="24" r="2"/></svg>
-    <h2>about</h2>
-    <p>I work at Rockpecker Private Limited, where my days move between finance, funding and investment, the group's global expansion across India and overseas, contract review and negotiation, and marketing.</p>
-    <p>I hold an MBA in Finance from Chitkara University, with a superspecialisation in corporate finance, investment banking and wealth management through the CXOs NextGen Centre of Excellence in Finance, and a B.Com (Hons.) in Accounting and Finance from the same university.</p>
-    <p>My path has run from a finance desk in Haryana to Disney's Hollywood Studios in Florida. Through all of it, I write. When I'm not writing, I'm sketching, dancing or cooking.</p>
+    <h2>the North Star</h2>
+    <p class="h2-sub">who I am</p>
+    <div class="about-poem">
+      <p><span>By day, I sit where the numbers gather,</span><span>weighing funds and futures at <span class="hl" style="display:inline">Rockpecker</span>,</span><span>reading contracts line by careful line,</span><span>carrying one name across many borders.</span></p>
+      <p><span>I learned the language of money at Chitkara:</span><span>first light in commerce, then a full orbit of finance,</span><span>corporate, investment, wealth.</span></p>
+      <p><span>My road ran from a desk in Haryana</span><span>to the bright lights of Florida,</span><span>and every stop left a line in my notebook.</span></p>
+      <p><span class="hl">For through all of it, I write.</span><span>And when I don't, I sketch, I dance, I cook,</span><span>still making something out of nothing,</span><span class="hl">still looking up.</span></p>
+    </div>
     <span class="folio">3</span>
   </article>
 
-  <article class="face">
-    <svg class="constellation" viewBox="0 0 120 36" aria-hidden="true"><line x1="8" y1="26" x2="40" y2="10"/><line x1="40" y1="10" x2="72" y2="22"/><line x1="72" y1="22" x2="112" y2="8"/><circle cx="8" cy="26" r="2"/><circle cx="40" cy="10" r="2.5"/><circle cx="72" cy="22" r="1.8"/><circle cx="112" cy="8" r="2.2"/></svg>
-    <h2>writing</h2>
-    <!-- To link a title: <p class="name italic"><a href="LINK">Title</a></p> -->
-    <ul class="orbit">
-      <li><p class="name italic">Of Chaos and Calm: From the Spaces In-Between</p><p class="detail">Writing</p></li>
-      <li><p class="name italic">Unspoken, Still Given</p><p class="detail">Writing</p></li>
-      <li><p class="name italic">Kaizen Tools for Waste Management in the Textile Industry</p><p class="detail">Research paper</p></li>
-    </ul>
+  <article class="face wide">
+    <h2>written in stars</h2>
+    <p class="h2-sub">constellations of ink</p>
+    <!-- Your published books. To link one, wrap its caption title: <a href="LINK">Of Chaos and Calm</a> -->
+    <div class="shelf">
+      <figure class="book3d">
+        <div class="book3d-stage"><div class="book3d-inner">
+          <div class="b-front cover-chaos">
+            <p class="b-star">✦ ✦ ✦</p>
+            <div><p class="b-title">Of Chaos and Calm</p><p class="b-sub">From the Spaces In-Between</p></div>
+            <p class="b-author">KANIKA GARG</p>
+          </div>
+          <div class="b-spine"><span>Of Chaos and Calm · Kanika Garg</span></div>
+          <div class="b-pages"></div><div class="b-back"></div>
+        </div></div>
+        <div class="book3d-shadow"></div>
+        <figcaption class="book-cap">
+          <p class="cap-title">Of Chaos and Calm</p>
+          <p class="cap-sub">From the Spaces In-Between</p>
+          <span class="pill">✦ published book</span>
+        </figcaption>
+      </figure>
+      <figure class="book3d">
+        <div class="book3d-stage"><div class="book3d-inner">
+          <div class="b-front cover-unspoken">
+            <p class="b-star">&nbsp;</p>
+            <div style="margin-top:3.6rem"><p class="b-title">Unspoken,<br>Still Given</p><p class="b-sub">From the Spaces In-Between</p></div>
+            <p class="b-author">KANIKA GARG</p>
+          </div>
+          <div class="b-spine"><span>Unspoken, Still Given · Kanika Garg</span></div>
+          <div class="b-pages"></div><div class="b-back"></div>
+        </div></div>
+        <div class="book3d-shadow"></div>
+        <figcaption class="book-cap">
+          <p class="cap-title">Unspoken, Still Given</p>
+          <p class="cap-sub">From the Spaces In-Between</p>
+          <span class="pill">✦ published book</span>
+        </figcaption>
+      </figure>
+    </div>
+    <div class="paper-card">
+      <svg viewBox="0 0 46 56" aria-hidden="true"><path d="M4 4 H32 L42 14 V52 H4 Z" fill="rgba(243,227,188,.12)" stroke="#E8C77E" stroke-width="1.6"/><path d="M32 4 V14 H42" fill="none" stroke="#E8C77E" stroke-width="1.6"/><g stroke="#F3E3BC" stroke-width="1.4" opacity=".7"><line x1="11" y1="24" x2="35" y2="24"/><line x1="11" y1="31" x2="35" y2="31"/><line x1="11" y1="38" x2="28" y2="38"/></g></svg>
+      <div><p class="detail">research paper</p><p class="name italic">Kaizen Tools for Waste Management in the Textile Industry</p></div>
+    </div>
     <span class="folio">4</span>
   </article>
 
-  <article class="face">
-    <svg class="constellation" viewBox="0 0 120 36" aria-hidden="true"><line x1="10" y1="12" x2="46" y2="28"/><line x1="46" y1="28" x2="80" y2="6"/><line x1="80" y1="6" x2="110" y2="24"/><circle cx="10" cy="12" r="2.2"/><circle cx="46" cy="28" r="1.8"/><circle cx="80" cy="6" r="2.6"/><circle cx="110" cy="24" r="2"/></svg>
-    <h2>experience</h2>
-    <ul class="orbit">
-      <li><p class="name">Rockpecker Private Limited <span class="when">· present</span></p><p class="detail">Finance, funding and investment, global expansion, contract review and negotiation, marketing</p></li>
-      <li><p class="name">Electroboffin <span class="when">· 2024</span></p><p class="detail">Financial Assistant, Yamunanagar</p></li>
-      <li><p class="name">Altius Dental <span class="when">· 2024</span></p><p class="detail">Credentialing Specialist, Mohali</p></li>
-      <li><p class="name">VIENNA Advantage <span class="when">· 2024</span></p><p class="detail">Finance Trainee, Mohali</p></li>
-    </ul>
-    <span class="folio">5</span>
+  <article class="face sky">
+    <div class="sky-head"><h2>orbits travelled</h2><p class="h2-sub">journeys</p></div>
+    <div class="exp-sky">
+      <svg class="orbits" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="50" cy="56" rx="36" ry="25"/></svg>
+      <div class="xp center" style="left:50%;top:56%">
+        <span class="xp-body"><svg class="icon icon-sun" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="49" fill="url(#gCore)"/><g class="corona" stroke="#FFE3A6" stroke-width="2.2" stroke-linecap="round" opacity=".85"><line x1="50" y1="6" x2="50" y2="18"/><line x1="50" y1="82" x2="50" y2="94"/><line x1="6" y1="50" x2="18" y2="50"/><line x1="82" y1="50" x2="94" y2="50"/><line x1="19" y1="19" x2="27" y2="27"/><line x1="73" y1="73" x2="81" y2="81"/><line x1="81" y1="19" x2="73" y2="27"/><line x1="27" y1="73" x2="19" y2="81"/></g><circle cx="50" cy="50" r="22" fill="url(#gStar)"/><circle cx="50" cy="50" r="14" fill="#FFF6DE"/></svg></span>
+        <p class="xp-name">Rockpecker Private Limited</p>
+        <div class="xp-roles"><span>finance</span><span>funding &amp; investment</span><span>global expansion</span><span>contracts</span><span>marketing</span></div>
+        <p class="xp-when">present · where I shine now</p>
+      </div>
+      <div class="xp" style="left:50.0%;top:31.0%">
+        <span class="xp-body" style="--delay:0.0s"><svg class="icon icon-planet" viewBox="0 0 100 100" aria-hidden="true"><g transform="rotate(-18 50 52)"><path d="M4 52 A46 13 0 0 1 96 52" fill="none" stroke="#E8C77E" stroke-width="3" opacity=".55"/></g><circle cx="50" cy="50" r="25" fill="url(#gPlanet)"/><path d="M28 44 Q50 38 72 46" stroke="rgba(255,255,255,.25)" stroke-width="2.5" fill="none"/><path d="M27 55 Q50 50 73 57" stroke="rgba(255,255,255,.15)" stroke-width="2" fill="none"/><g transform="rotate(-18 50 52)"><path class="ring" d="M4 52 A46 13 0 0 0 96 52" fill="none" stroke="#F3D48E" stroke-width="3.2" stroke-dasharray="6 4"/></g></svg></span>
+        <p class="xp-name">Electroboffin</p><p class="xp-role">Financial Assistant</p><p class="xp-when">Yamunanagar · 2024</p>
+      </div>
+      <div class="xp" style="left:81.2%;top:43.5%">
+        <span class="xp-body" style="--delay:0.8s"><svg class="icon icon-moon" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="rgba(255,230,180,.12)" filter="url(#fSoft)"/><circle cx="50" cy="52" r="34" fill="url(#gMoon)" mask="url(#mMoon)"/><g fill="#FFF6DE"><circle class="tw" cx="80" cy="22" r="2.4"/><circle class="tw d2" cx="72" cy="66" r="1.8"/></g></svg></span>
+        <p class="xp-name">Altius Dental</p><p class="xp-role">Credentialing Specialist</p><p class="xp-when">Mohali · 2024</p>
+      </div>
+      <div class="xp" style="left:81.2%;top:68.5%">
+        <span class="xp-body" style="--delay:1.6s"><svg class="icon icon-comet" viewBox="0 0 100 100" aria-hidden="true"><path class="tail" d="M78 20 L10 72 L20 84 L84 30 Z" fill="url(#gTail)"/><circle cx="80" cy="25" r="16" fill="url(#gStar)"/><circle cx="80" cy="25" r="5.5" fill="#FFFFFF"/></svg></span>
+        <p class="xp-name">VIENNA Advantage</p><p class="xp-role">Finance Trainee</p><p class="xp-when">Mohali · 2024</p>
+      </div>
+      <div class="xp" style="left:50.0%;top:81.0%">
+        <span class="xp-body" style="--delay:2.4s"><svg class="icon icon-star" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="url(#gStar)"/><path class="rays" d="M50 6 L54.5 45.5 L94 50 L54.5 54.5 L50 94 L45.5 54.5 L6 50 L45.5 45.5Z" fill="#FFF6DE"/><circle cx="50" cy="50" r="9" fill="#FFFFFF"/></svg></span>
+        <p class="xp-name">Walt Disney World</p><p class="xp-role">Cast Member, Hollywood Studios</p><p class="xp-when">Florida, USA · 2023</p>
+      </div>
+      <div class="xp" style="left:18.8%;top:68.5%">
+        <span class="xp-body" style="--delay:1.6s"><svg class="icon icon-const" viewBox="0 0 100 100" aria-hidden="true"><g stroke="rgba(232,199,126,.65)" stroke-width="1.4" fill="none"><path d="M14 72 L34 42 L55 56 L74 24 L90 46"/><path d="M34 42 L42 18"/></g><g fill="#FFF3D6"><circle class="tw" cx="14" cy="72" r="3.2"/><circle class="tw d1" cx="34" cy="42" r="4.2"/><circle class="tw d2" cx="55" cy="56" r="3"/><circle class="tw d3" cx="74" cy="24" r="4.6"/><circle class="tw d1" cx="90" cy="46" r="3.2"/><circle class="tw d2" cx="42" cy="18" r="2.6"/></g></svg></span>
+        <p class="xp-name">Indian School of Business</p><p class="xp-role">Interview Coordinator</p><p class="xp-when">Mohali · 2022–23</p>
+      </div>
+      <div class="xp" style="left:18.8%;top:43.5%">
+        <span class="xp-body" style="--delay:0.8s"><svg class="icon icon-nebula" viewBox="0 0 100 100" aria-hidden="true"><g filter="url(#fSoft)" class="cloud"><circle cx="38" cy="52" r="22" fill="#A56CFF" opacity=".75"/><circle cx="62" cy="44" r="20" fill="#FF7AC8" opacity=".6"/><circle cx="55" cy="64" r="18" fill="#6F8DFF" opacity=".65"/></g><g fill="#FFFFFF"><circle class="tw" cx="30" cy="40" r="1.8"/><circle class="tw d1" cx="64" cy="36" r="2.4"/><circle class="tw d2" cx="50" cy="56" r="3"/><circle class="tw d3" cx="70" cy="64" r="1.6"/><circle class="tw d1" cx="40" cy="68" r="1.4"/></g></svg></span>
+        <p class="xp-name">AIESEC</p><p class="xp-role">Outgoing Global Volunteer Team Member</p><p class="xp-when">Chandigarh · 2022</p>
+      </div>
+    </div>
   </article>
 
-  <article class="face">
-    <svg class="constellation" viewBox="0 0 120 36" aria-hidden="true"><line x1="8" y1="26" x2="40" y2="10"/><line x1="40" y1="10" x2="72" y2="22"/><line x1="72" y1="22" x2="112" y2="8"/><circle cx="8" cy="26" r="2"/><circle cx="40" cy="10" r="2.5"/><circle cx="72" cy="22" r="1.8"/><circle cx="112" cy="8" r="2.2"/></svg>
-    <h2>experience</h2>
-    <ul class="orbit">
-      <li><p class="name">Walt Disney World <span class="when">· 2023</span></p><p class="detail">Cast Member, Disney's Hollywood Studios, Florida</p></li>
-      <li><p class="name">Indian School of Business <span class="when">· 2022–23</span></p><p class="detail">Interview Coordinator, Mohali</p></li>
-      <li><p class="name">AIESEC <span class="when">· 2022</span></p><p class="detail">Outgoing Global Volunteer Team Member, Chandigarh</p></li>
-    </ul>
+  <article class="face wide">
+    <h2>full orbit</h2>
+    <p class="h2-sub">where I learned to shine</p>
+    <div class="journey">
+      <div class="station">
+        <div class="st-icon"><svg class="icon icon-moon" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="rgba(255,230,180,.12)" filter="url(#fSoft)"/><circle cx="50" cy="52" r="34" fill="url(#gMoon)" mask="url(#mMoon)"/><g fill="#FFF6DE"><circle class="tw" cx="80" cy="22" r="2.4"/><circle class="tw d2" cx="72" cy="66" r="1.8"/></g></svg></div>
+        <span class="st-tag">first light</span>
+        <p class="st-years">2021 – 2024</p>
+        <p class="name">B.Com (Hons.)</p>
+        <p class="detail">Accounting and Finance<br>Chitkara University</p>
+      </div>
+      <div class="trajectory" aria-hidden="true"><span class="comet-dot"></span></div>
+      <div class="station big">
+        <div class="system">
+          <div class="st-icon"><svg class="icon icon-planet" viewBox="0 0 100 100" aria-hidden="true"><g transform="rotate(-18 50 52)"><path d="M4 52 A46 13 0 0 1 96 52" fill="none" stroke="#E8C77E" stroke-width="3" opacity=".55"/></g><circle cx="50" cy="50" r="25" fill="url(#gPlanet)"/><path d="M28 44 Q50 38 72 46" stroke="rgba(255,255,255,.25)" stroke-width="2.5" fill="none"/><path d="M27 55 Q50 50 73 57" stroke="rgba(255,255,255,.15)" stroke-width="2" fill="none"/><g transform="rotate(-18 50 52)"><path class="ring" d="M4 52 A46 13 0 0 0 96 52" fill="none" stroke="#F3D48E" stroke-width="3.2" stroke-dasharray="6 4"/></g></svg></div>
+          <div class="sat-orbit" aria-hidden="true">
+            <span class="sat" style="--a:-90deg"><b><i>Corporate Finance</i></b></span>
+            <span class="sat" style="--a:30deg"><b><i>Investment Banking</i></b></span>
+            <span class="sat" style="--a:150deg"><b><i>Wealth Management</i></b></span>
+          </div>
+        </div>
+        <span class="st-tag">a full orbit</span>
+        <p class="st-years">2024 – 2026</p>
+        <p class="name">MBA, Finance</p>
+        <p class="detail">Chitkara University · superspecialisation in Corporate Finance, Investment Banking and Wealth Management, CXOs NextGen Centre of Excellence in Finance</p>
+      </div>
+    </div>
     <span class="folio">6</span>
   </article>
 
   <article class="face">
-    <svg class="constellation" viewBox="0 0 120 36" aria-hidden="true"><line x1="10" y1="12" x2="46" y2="28"/><line x1="46" y1="28" x2="80" y2="6"/><line x1="80" y1="6" x2="110" y2="24"/><circle cx="10" cy="12" r="2.2"/><circle cx="46" cy="28" r="1.8"/><circle cx="80" cy="6" r="2.6"/><circle cx="110" cy="24" r="2"/></svg>
-    <h2>learning</h2>
-    <ul class="orbit">
-      <li><p class="name">MBA, Finance <span class="when">· 2024–26</span></p><p class="detail">Chitkara University, superspecialisation in Corporate Finance, Investment Banking and Wealth Management (CXOs NextGen Centre of Excellence in Finance)</p></li>
-      <li><p class="name">B.Com (Hons.), Accounting and Finance <span class="when">· 2021–24</span></p><p class="detail">Chitkara University</p></li>
-    </ul>
-    <span class="folio">7</span>
-  </article>
-
-  <article class="face">
-    <svg class="constellation" viewBox="0 0 120 36" aria-hidden="true"><line x1="8" y1="26" x2="40" y2="10"/><line x1="40" y1="10" x2="72" y2="22"/><line x1="72" y1="22" x2="112" y2="8"/><circle cx="8" cy="26" r="2"/><circle cx="40" cy="10" r="2.5"/><circle cx="72" cy="22" r="1.8"/><circle cx="112" cy="8" r="2.2"/></svg>
+    <span class="chapter-icon"><svg class="icon icon-nebula" viewBox="0 0 100 100" aria-hidden="true"><g filter="url(#fSoft)" class="cloud"><circle cx="38" cy="52" r="22" fill="#A56CFF" opacity=".75"/><circle cx="62" cy="44" r="20" fill="#FF7AC8" opacity=".6"/><circle cx="55" cy="64" r="18" fill="#6F8DFF" opacity=".65"/></g><g fill="#FFFFFF"><circle class="tw" cx="30" cy="40" r="1.8"/><circle class="tw d1" cx="64" cy="36" r="2.4"/><circle class="tw d2" cx="50" cy="56" r="3"/><circle class="tw d3" cx="70" cy="64" r="1.6"/><circle class="tw d1" cx="40" cy="68" r="1.4"/></g></svg></span>
     <h2>stardust</h2>
-    <p style="text-align:center;font-style:italic">gathered along the way</p>
+    <p class="h2-sub">little lights</p>
     <ul class="dust">
       <li>Introduction to Data Science</li>
       <li>Cryptocurrency and Blockchain in Business</li>
@@ -449,12 +721,14 @@
       <li>Happiness Festival</li>
       <li>Sri Guru Nanak Dev Ji Chair Painting &amp; Essay Competition</li>
     </ul>
-    <span class="folio">8</span>
+    <span class="folio">7</span>
   </article>
 
   <article class="face cover">
     <div class="cover-inner">
-      <p class="cover-star">✦ ✦ ✦</p>
+      <span class="chapter-icon"><svg class="icon icon-comet" viewBox="0 0 100 100" aria-hidden="true"><path class="tail" d="M78 20 L10 72 L20 84 L84 30 Z" fill="url(#gTail)"/><circle cx="80" cy="25" r="16" fill="url(#gStar)"/><circle cx="80" cy="25" r="5.5" fill="#FFFFFF"/></svg></span>
+      <p class="cover-title">send a comet</p>
+      <p class="cover-hint" style="margin-top:-.6rem">write back to me</p>
       <p class="cover-note">If a line here found you,<br>send one back.</p>
       <div class="cover-links">
         <a href="mailto:kanikajk113@gmail.com">email</a>
@@ -723,7 +997,8 @@
     corner.hidden = current === maxStop();
     document.body.classList.toggle('at-cover', current === 0);
     const f = spread ? Math.min(current * 2, faces.length - 1) : current;
-    const chapter = f >= 9 ? 9 : f >= 7 ? 7 : f >= 5 ? 5 : f >= 4 ? 4 : f >= 3 ? 3 : -1;
+    const gos = navLinks.map(a => parseInt(a.dataset.go, 10)).filter(g => g <= f);
+    const chapter = gos.length ? Math.max(...gos) : -1;
     navLinks.forEach(a => a.classList.toggle('on', parseInt(a.dataset.go, 10) === chapter));
   }
   function prepare(dir) {
