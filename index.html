@@ -8,21 +8,19 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500;1,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  /* Night sky (default) */
   :root {
-    --sky-top: #0B0820;
-    --sky-mid: #1A1242;
-    --sky-low: #2B1650;
-    --neb-1: rgba(168, 92, 214, 0.35);
-    --neb-2: rgba(232, 120, 168, 0.22);
-    --neb-3: rgba(80, 150, 220, 0.20);
-    --ink: #EDE7FA;
-    --soft: #B3A8D4;
-    --glow: #F6C6E0;
-    --star: #FFF6E8;
-    --line: rgba(237, 231, 250, 0.16);
+    --sky-top: #03061A;
+    --sky-mid: #081240;
+    --sky-low: #0E0C36;
+    --ink: #F7F5FF;
+    --soft: #D4D8F2;
+    --glow: #FFD6A8;
+    --star: #FFFFFF;
+    --line: rgba(200, 210, 255, 0.22);
+    --panel: rgba(5, 8, 30, 0.62);
+    --halo: rgba(2, 3, 16, 0.95);
     --serif: "Cormorant Garamond", "Garamond", Georgia, serif;
     --sans: "Jost", "Futura", "Segoe UI", system-ui, sans-serif;
     box-sizing: border-box;
@@ -30,120 +28,89 @@
     padding-bottom: env(safe-area-inset-bottom, 0px);
     color-scheme: dark;
   }
-  /* Dawn sky, for light mode */
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) {
-      --sky-top: #E9E1F7; --sky-mid: #F3E4EE; --sky-low: #FBE9E1;
-      --neb-1: rgba(160, 110, 220, 0.28); --neb-2: rgba(240, 150, 180, 0.28); --neb-3: rgba(120, 170, 230, 0.22);
-      --ink: #2A1F4A; --soft: #6A5E8C; --glow: #B0467A; --star: #7A5CB8;
-      --line: rgba(42, 31, 74, 0.15); color-scheme: light;
-    }
-  }
-  :root[data-theme="light"] {
-    --sky-top: #E9E1F7; --sky-mid: #F3E4EE; --sky-low: #FBE9E1;
-    --neb-1: rgba(160, 110, 220, 0.28); --neb-2: rgba(240, 150, 180, 0.28); --neb-3: rgba(120, 170, 230, 0.22);
-    --ink: #2A1F4A; --soft: #6A5E8C; --glow: #B0467A; --star: #7A5CB8;
-    --line: rgba(42, 31, 74, 0.15); color-scheme: light;
-  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --panel: rgba(5, 8, 30, 0.62); } }
+  :root[data-theme="dark"] { --panel: rgba(5, 8, 30, 0.62); }
   *, *::before, *::after { box-sizing: inherit; }
-  html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; background: var(--sky-top); }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-  body {
-    margin: 0; color: var(--ink); background: var(--sky-top);
-    font: 300 1.05rem/1.8 var(--sans); -webkit-font-smoothing: antialiased;
-  }
-  .sky {
-    position: fixed; inset: 0; z-index: -2;
-    background:
-      radial-gradient(60% 45% at 78% 18%, var(--neb-1), transparent 70%),
-      radial-gradient(50% 40% at 12% 62%, var(--neb-2), transparent 70%),
-      radial-gradient(45% 35% at 70% 88%, var(--neb-3), transparent 70%),
-      linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 55%, var(--sky-low) 100%);
-  }
-  canvas#stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-  .sky { overflow: hidden; }
-  .sky::before, .sky::after { content: ""; position: absolute; inset: -20%; pointer-events: none; }
-  .sky::before {
-    background:
-      radial-gradient(32% 28% at 30% 30%, var(--neb-1), transparent 70%),
-      radial-gradient(28% 24% at 72% 62%, var(--neb-3), transparent 70%),
-      radial-gradient(22% 20% at 55% 20%, var(--neb-2), transparent 70%);
-    opacity: .85; animation: drift 36s ease-in-out infinite alternate;
-  }
-  .sky::after {
-    background: linear-gradient(115deg, transparent 34%, rgba(255,240,250,.06) 44%, rgba(220,200,255,.11) 50%, rgba(255,240,250,.06) 56%, transparent 66%);
-    animation: drift2 58s ease-in-out infinite alternate;
-  }
-  @keyframes drift { to { transform: translate(6%, 4%) scale(1.12) rotate(4deg); } }
-  @keyframes drift2 { to { transform: translate(-4%, 3%) rotate(-3deg); } }
-  .tap-hint { margin-top: .6rem; color: var(--soft); font-size: .85rem; opacity: .8; }
+  body { margin: 0; color: var(--ink); font: 400 1.07rem/1.8 var(--sans); -webkit-font-smoothing: antialiased; }
 
-  a { color: var(--glow); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--glow) 45%, transparent); transition: border-color .3s, text-shadow .3s; }
-  a:hover { border-color: var(--glow); text-shadow: 0 0 12px color-mix(in srgb, var(--glow) 60%, transparent); }
+  .sky { position: fixed; inset: 0; z-index: -2; overflow: hidden;
+    background:
+      radial-gradient(55% 45% at 80% 15%, rgba(70, 90, 230, .28), transparent 70%),
+      radial-gradient(50% 40% at 10% 70%, rgba(130, 70, 200, .25), transparent 70%),
+      linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 55%, var(--sky-low) 100%); }
+  .sky::before { content: ""; position: absolute; inset: -20%;
+    background: radial-gradient(30% 26% at 25% 30%, rgba(90, 120, 255, .16), transparent 70%),
+                radial-gradient(26% 22% at 75% 70%, rgba(180, 90, 220, .14), transparent 70%);
+    animation: drift 36s ease-in-out infinite alternate; }
+  @keyframes drift { to { transform: translate(6%, 4%) scale(1.12) rotate(4deg); } }
+  canvas#stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+
+  a { color: var(--glow); font-weight: 500; text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--glow) 50%, transparent); }
+  a:hover { border-color: var(--glow); }
   a:focus-visible { outline: 2px solid var(--glow); outline-offset: 4px; border-radius: 2px; }
 
-  .wrap { max-width: 44rem; margin: 0 auto; padding: 0 clamp(1.25rem, 6vw, 2.5rem); }
+  .wrap { max-width: 46rem; margin: 0 auto; padding: 0 clamp(1rem, 5vw, 2rem);
+          text-shadow: 0 1px 3px var(--halo), 0 0 12px var(--halo), 0 0 26px var(--halo); }
 
-  nav { display: flex; justify-content: center; flex-wrap: wrap; gap: .25rem 1.6rem; padding-top: 1.75rem;
-        font: italic 400 1.15rem var(--serif); }
-  nav a { color: var(--soft); border: 0; }
-  nav a:hover { color: var(--ink); }
+  nav { display: flex; justify-content: center; flex-wrap: wrap; gap: .25rem 1.6rem; padding-top: 1.75rem; font: italic 600 1.2rem var(--serif); }
+  nav a { color: var(--ink); border: 0; }
+  nav a:hover { color: var(--glow); }
 
-  /* Opening */
-  header { min-height: 92vh; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 3rem 0 5rem; }
-  h1 {
-    font: italic 300 clamp(4.2rem, 16vw, 9rem)/.85 var(--serif); margin: 0 0 2.75rem; letter-spacing: -0.01em;
-    text-shadow: 0 0 28px color-mix(in srgb, var(--glow) 55%, transparent), 0 0 70px color-mix(in srgb, var(--neb-1) 100%, transparent);
-  }
+  header { position: relative; isolation: isolate; min-height: 92vh; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 3rem 0 5rem; }
+  header::before { content: ""; position: absolute; inset: 12% -12% 18%; z-index: -1; pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(2, 4, 20, .5) 0%, rgba(2, 4, 20, .25) 45%, transparent 70%); }
+  h1 { font: italic 600 clamp(4.2rem, 16vw, 9rem)/.85 var(--serif); margin: 0 0 2.75rem;
+       text-shadow: 0 2px 6px rgba(0,0,0,.9), 0 0 30px rgba(2,4,20,.95), 0 0 60px color-mix(in srgb, var(--glow) 35%, transparent); }
   h1 span { display: block; }
-  .verse { font: italic 400 clamp(1.3rem, 3.6vw, 1.7rem)/1.6 var(--serif); margin: 0 0 2.75rem; }
+  .verse { font: italic 600 clamp(1.35rem, 3.8vw, 1.8rem)/1.55 var(--serif); margin: 0 0 2.5rem; }
   .verse span { display: block; }
   .verse span:last-child { color: var(--glow); }
-  .whisper { color: var(--soft); font-size: .95rem; margin: 0; letter-spacing: .02em; }
-  .scroll-hint { margin-top: 3.5rem; color: var(--soft); font: italic 400 1.05rem var(--serif); }
+  .whisper { color: var(--soft); font-weight: 500; font-size: .98rem; margin: 0; }
+  .scroll-hint { margin-top: 3rem; color: var(--soft); font: italic 600 1.1rem var(--serif); }
+  .tap-hint { margin-top: .5rem; color: var(--soft); font-size: .88rem; }
 
   .fade { opacity: 0; filter: blur(6px); animation: appear 1.4s ease forwards; }
   .t1 { animation-delay: .2s } .t2 { animation-delay: 1s } .t3 { animation-delay: 1.8s }
   .t4 { animation-delay: 2.6s } .t5 { animation-delay: 3.4s } .t6 { animation-delay: 4.4s }
   @keyframes appear { to { opacity: 1; filter: none; } }
 
-  /* Chapters */
-  section { padding: 4.5rem 0; opacity: 0; transform: translateY(18px); transition: opacity 1.2s ease, transform 1.2s ease; }
+  section { margin: 3.5rem 0; padding: 3rem clamp(1.25rem, 5vw, 3rem);
+            background: var(--panel); border: 1px solid var(--line); border-radius: 26px;
+            -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+            opacity: 0; transform: translateY(18px); transition: opacity 1.2s ease, transform 1.2s ease; }
   section.seen { opacity: 1; transform: none; }
-  .constellation { display: block; margin: 0 auto 1.25rem; width: 120px; height: 36px; overflow: visible; }
+  .constellation { display: block; margin: 0 auto 1rem; width: 120px; height: 36px; overflow: visible; }
   .constellation line { stroke: var(--line); stroke-width: 1; }
   .constellation circle { fill: var(--star); }
-  h2 { text-align: center; font: italic 300 clamp(2.5rem, 7vw, 3.4rem)/1 var(--serif); margin: 0 0 2.5rem;
-       text-shadow: 0 0 20px color-mix(in srgb, var(--glow) 35%, transparent); }
+  h2 { text-align: center; font: italic 600 clamp(2.5rem, 7vw, 3.4rem)/1 var(--serif); margin: 0 0 2rem; }
   p { margin: 0 0 1.15rem; }
-  .prose { font-size: 1.08rem; }
 
   .orbit { list-style: none; margin: 0; padding: 0 0 0 1.75rem; border-left: 1px solid var(--line); }
-  .orbit li { position: relative; margin-bottom: 1.9rem; }
+  .orbit li { position: relative; margin-bottom: 1.8rem; }
   .orbit li:last-child { margin-bottom: 0; }
-  .orbit li::before {
-    content: ""; position: absolute; left: calc(-1.75rem - 4px); top: .7rem; width: 7px; height: 7px; border-radius: 50%;
-    background: var(--star); box-shadow: 0 0 10px 2px color-mix(in srgb, var(--glow) 70%, transparent);
-  }
-  .name { font: 400 1.55rem/1.3 var(--serif); margin: 0; }
+  .orbit li::before { content: ""; position: absolute; left: calc(-1.75rem - 4px); top: .75rem; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--star); box-shadow: 0 0 10px 2px color-mix(in srgb, var(--glow) 70%, transparent); }
+  .name { font: 600 1.6rem/1.3 var(--serif); margin: 0; }
   .name.italic { font-style: italic; }
-  .detail { color: var(--soft); margin: .2rem 0 0; font-size: .97rem; }
-  .when { font: italic 400 1.05rem var(--serif); color: var(--glow); }
+  .detail { color: var(--soft); margin: .2rem 0 0; font-size: 1rem; }
+  .when { font: italic 600 1.1rem var(--serif); color: var(--glow); }
 
-  .dust { list-style: none; padding: 0; margin: 2.5rem 0 0; display: flex; flex-wrap: wrap; gap: .7rem; justify-content: center; }
-  .dust li { border: 1px solid var(--line); border-radius: 999px; padding: .35rem 1rem; font-size: .92rem; color: var(--soft);
-             background: color-mix(in srgb, var(--sky-top) 35%, transparent); }
-  .dust-title { text-align: center; font: italic 400 1.4rem var(--serif); margin: 3rem 0 0; }
+  .dust-title { text-align: center; font: italic 600 1.45rem var(--serif); margin: 2.75rem 0 0; }
+  .dust { list-style: none; padding: 0; margin: 1.5rem 0 0; display: flex; flex-wrap: wrap; gap: .7rem; justify-content: center; }
+  .dust li { border: 1px solid var(--line); border-radius: 999px; padding: .35rem 1rem; font-size: .95rem; color: var(--ink);
+             background: rgba(10, 16, 50, .6); }
 
-  footer { text-align: center; padding: 5rem 0 3.5rem; }
-  .farewell { font: italic 300 clamp(1.7rem, 5vw, 2.2rem)/1.35 var(--serif); margin: 0 0 2rem; }
-  .links { display: flex; justify-content: center; gap: .5rem 2rem; flex-wrap: wrap; margin-bottom: 2.75rem; font-size: 1.02rem; }
-  footer small { color: var(--soft); font-size: .85rem; }
+  footer { text-align: center; margin: 3.5rem 0 0; padding: 3rem 1rem 3.5rem; }
+  .farewell { font: italic 600 clamp(1.8rem, 5vw, 2.3rem)/1.35 var(--serif); margin: 0 0 2rem; }
+  .links { display: flex; justify-content: center; gap: .5rem 2rem; flex-wrap: wrap; margin-bottom: 2.5rem; font-size: 1.05rem; }
+  footer small { color: var(--soft); font-size: .88rem; }
 
   @media (prefers-reduced-motion: reduce) {
     .fade { animation: none; opacity: 1; filter: none; }
     section { opacity: 1; transform: none; transition: none; }
-    .sky::before, .sky::after { animation: none; }
+    .sky::before { animation: none; }
     .tap-hint { display: none; }
   }
 </style>
@@ -167,10 +134,10 @@
     </p>
     <p class="whisper fade t5">finance, funding and global expansion &nbsp;·&nbsp; poet &nbsp;·&nbsp; Rajpura, Punjab</p>
     <p class="scroll-hint fade t6">drift down ↓</p>
-    <p class="tap-hint fade t6">move or tap anywhere to scatter stardust</p>
+    <p class="tap-hint fade t6">move or tap anywhere to catch the stardust</p>
   </header>
 
-  <section id="about" class="prose">
+  <section id="about">
     <svg class="constellation" viewBox="0 0 120 36" aria-hidden="true"><line x1="8" y1="26" x2="40" y2="10"/><line x1="40" y1="10" x2="72" y2="22"/><line x1="72" y1="22" x2="112" y2="8"/><circle cx="8" cy="26" r="2"/><circle cx="40" cy="10" r="2.5"/><circle cx="72" cy="22" r="1.8"/><circle cx="112" cy="8" r="2.2"/></svg>
     <h2>about</h2>
     <p>I work at Rockpecker Private Limited, where my days move between finance, funding and investment, the group's global expansion across India and overseas, contract review and negotiation, and marketing.</p>
@@ -189,7 +156,7 @@
     </ul>
   </section>
 
-  <section id="work">
+  <section id="experiance">
     <svg class="constellation" viewBox="0 0 120 36" aria-hidden="true"><line x1="6" y1="20" x2="34" y2="6"/><line x1="34" y1="6" x2="60" y2="30"/><line x1="60" y1="30" x2="88" y2="14"/><line x1="88" y1="14" x2="114" y2="22"/><circle cx="6" cy="20" r="1.8"/><circle cx="34" cy="6" r="2.4"/><circle cx="60" cy="30" r="2"/><circle cx="88" cy="14" r="2.6"/><circle cx="114" cy="22" r="1.8"/></svg>
     <h2>work</h2>
     <ul class="orbit">
@@ -237,44 +204,63 @@
   const canvas = document.getElementById('stars');
   const ctx = canvas.getContext('2d');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const tints = ['#BFD8FF', '#FFD1E8', '#FFE3A3', '#D9C8FF'];
-  let w = 0, h = 0, dpr = 1, R = 0, pole = { x: 0, y: 0 };
-  let stars = [], galaxy = [], motes = [], sparks = [], shooters = [];
-  let nextShoot = 1200, last = 0, spin = 0, gSpin = 0, base = '#fff', glow = '#F6C6E0';
-
-  const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-  function readColors() { base = cssVar('--star') || '#fff'; glow = cssVar('--glow') || '#fff'; }
-  const rnd = (a, b) => a + Math.random() * (b - a);
   const TAU = Math.PI * 2;
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const gauss = () => (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+  const tints = ['#BFD2FF', '#FFD9B0', '#F2C2FF', '#FFFFFF'];
+  const flecks = ['#FFFFFF', '#DCE6FF', '#B9C9FF', '#FFE6C4', '#E9D6FF'];
 
+  let w = 0, h = 0, dpr = 1, R = 0, pole = { x: 0, y: 0 };
+  let stars = [], gal = [], motes = [], sparks = [], shooters = [], glitter = [];
+  let px = -9999, py = -9999, nextShoot = 1200, last = 0, spin = 0, gSpin = 0;
+
+  function galaxyFrame() {
+    const portrait = h > w * 1.1;
+    return portrait
+      ? { cx: w * .5, cy: h * .52, size: h * .55, lean: -1.2, tilt: .32 }
+      : { cx: w * .52, cy: h * .56, size: w * .62, lean: -.3, tilt: .34 };
+  }
+  function build() {
+    pole = { x: w * .5, y: -h * .25 };
+    R = Math.hypot(Math.max(pole.x, w - pole.x), h - pole.y) + 20;
+    const count = Math.round(Math.min(2600, (Math.PI * R * R) / 3000));
+    stars = Array.from({ length: count }, () => {
+      const big = Math.random() < .1;
+      return { rad: R * Math.sqrt(Math.random()), ang: rnd(0, TAU), r: big ? rnd(1.1, 2.2) : rnd(.3, 1.1), a: rnd(.45, 1),
+               s: rnd(1.2, 4.5), p: rnd(0, TAU), flash: 0, tint: Math.random() < .3 ? pick(tints) : null, big };
+    });
+
+    // The galaxy: warm core, rose and violet middle, blue outer arms, dark dust lanes
+    const N = Math.round(Math.min(9000, (w * h) / 190));
+    gal = [];
+    for (let i = 0; i < N; i++) {
+      const roll = Math.random();
+      if (roll < .18) {
+        const d = Math.abs(gauss()) * .16;
+        gal.push({ kind: 0, d, ang: rnd(0, TAU), s: rnd(.8, 1.8), a: rnd(.5, .95), c: pick(['#FFF1DC', '#FFE0B8', '#FFD2A0']) });
+      } else if (roll < .92) {
+        const arm = Math.random() < .5 ? 0 : 1, d = .1 + Math.pow(Math.random(), .85) * .95;
+        const c = d < .35 ? pick(['#FFC39A', '#FF9E7A', '#F28A92', '#FFD9B8'])
+                : d < .62 ? pick(['#E59BE8', '#C49BFF', '#F2A9D6', '#FFFFFF'])
+                : pick(['#8FB0FF', '#6F8DFF', '#AFC6FF', '#5C78F0', '#FFFFFF']);
+        gal.push({ kind: 1, d, ang: Math.random() < .35 ? rnd(0, TAU) : arm * Math.PI + d * 3.4 + gauss() * .55 * (.4 + d), s: rnd(.8, 2.1) * (Math.random() < .05 ? 2 : 1),
+                   a: rnd(.4, .95), c: Math.random() < .03 ? '#FF7AD9' : c, p: rnd(0, TAU) });
+      } else {
+        const arm = Math.random() < .5 ? 0 : 1, d = rnd(.18, .85);
+        gal.push({ kind: 2, d, ang: arm * Math.PI + d * 3.4 - .28 + gauss() * .12, s: rnd(2, 4), a: rnd(.18, .35), c: '#140A26' });
+      }
+    }
+    motes = Array.from({ length: Math.round(Math.min(50, (w * h) / 24000)) }, () => newMote(false));
+    glitter = Array.from({ length: Math.round(Math.min(1800, (w * h) / 1100)) }, () => ({
+      x: rnd(0, w), y: rnd(0, h), s: Math.random() < .15 ? rnd(1, 1.8) : rnd(.4, 1), ph: rnd(0, TAU), sp: rnd(.8, 3.5), c: pick(flecks) }));
+  }
   function newMote(fromBottom) {
     return { x: rnd(0, w), y: fromBottom ? h + 10 : rnd(0, h), r: rnd(.6, 2.2), vy: -rnd(4, 12), vx: rnd(-3, 3), p: rnd(0, TAU) };
   }
   function newShooter() {
     const ang = Math.PI * rnd(.6, .78), sp = rnd(650, 1100);
-    return { x: rnd(w * .25, w * 1.05), y: rnd(-20, h * .45), vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp,
-             life: 0, max: rnd(.8, 1.4), len: rnd(110, 220) };
-  }
-  function build() {
-    // The whole sky turns around a pole star above the page, like a night time-lapse
-    pole = { x: w * .5, y: -h * .18 };
-    R = Math.hypot(Math.max(pole.x, w - pole.x), h - pole.y) + 20;
-    const count = Math.round(Math.min(4200, (Math.PI * R * R) / 2300));
-    stars = Array.from({ length: count }, () => {
-      const big = Math.random() < .12;
-      return { rad: R * Math.sqrt(Math.random()), ang: rnd(0, TAU), r: big ? rnd(1.1, 2.3) : rnd(.2, 1.1), a: rnd(.4, 1),
-               s: rnd(1.2, 5), p: rnd(0, TAU), flash: 0,
-               tint: Math.random() < .18 ? tints[Math.floor(Math.random() * tints.length)] : null, big };
-    });
-    // A slowly spinning spiral galaxy
-    const gN = Math.round(Math.min(1800, (w * h) / 900));
-    galaxy = Array.from({ length: gN }, () => {
-      const arm = Math.floor(Math.random() * 3), d = Math.pow(Math.random(), 1.6);
-      return { d, ang: arm * TAU / 3 + d * 5.2 + rnd(-.35, .35) * (1 - d * .5), jitter: rnd(-.06, .06),
-               r: rnd(.3, 1.3) * (1.2 - d * .6), a: rnd(.25, .9), p: rnd(0, TAU),
-               c: d < .18 ? '#FFE7B8' : (Math.random() < .5 ? '#E7C8FF' : (Math.random() < .5 ? '#FFC8E2' : '#C8DCFF')) };
-    });
-    motes = Array.from({ length: Math.round(Math.min(60, (w * h) / 20000)) }, () => newMote(false));
+    return { x: rnd(w * .25, w * 1.05), y: rnd(-20, h * .45), vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp, life: 0, max: rnd(.8, 1.4), len: rnd(110, 220) };
   }
   function resize() {
     const nw = window.innerWidth, nh = window.innerHeight;
@@ -283,64 +269,84 @@
     canvas.width = w * dpr; canvas.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     if (rebuild) build();
-    readColors();
     if (reduce) draw(0, 0);
   }
   function flare(x, y, len, alpha, color) {
     ctx.globalAlpha = Math.max(0, Math.min(1, alpha)); ctx.strokeStyle = color; ctx.lineWidth = .8;
     ctx.beginPath(); ctx.moveTo(x - len, y); ctx.lineTo(x + len, y); ctx.moveTo(x, y - len); ctx.lineTo(x, y + len); ctx.stroke();
   }
+  function glowDisc(r, stops) {
+    const g = ctx.createRadialGradient(0, 0, 0, 0, 0, r);
+    stops.forEach(([o, c]) => g.addColorStop(o, c));
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, r, 0, TAU); ctx.fill();
+  }
   function drawGalaxy(sec) {
-    const size = Math.min(w, h) * (w < 700 ? .42 : .34);
-    const cx = w < 700 ? w * .62 : w * .8, cy = h * .3, tilt = .42, lean = -.5;
-    const cosL = Math.cos(lean), sinL = Math.sin(lean);
-    const core = ctx.createRadialGradient(cx, cy, 0, cx, cy, size * .5);
-    core.addColorStop(0, 'rgba(255,236,200,.55)'); core.addColorStop(.25, 'rgba(230,180,255,.18)'); core.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.globalAlpha = 1; ctx.fillStyle = core;
-    ctx.beginPath(); ctx.ellipse(cx, cy, size * .5, size * .5 * tilt * 1.6, lean, 0, TAU); ctx.fill();
-    for (const g of galaxy) {
-      const a = g.ang + gSpin * (1.4 - g.d);
-      const rr = g.d * size * (1 + g.jitter);
-      const ex = Math.cos(a) * rr, ey = Math.sin(a) * rr * tilt;
-      const x = cx + ex * cosL - ey * sinL, y = cy + ex * sinL + ey * cosL;
-      ctx.globalAlpha = g.a * (.6 + .4 * Math.sin(sec * 2 + g.p)) * (1 - g.d * .55);
-      ctx.fillStyle = g.c; ctx.beginPath(); ctx.arc(x, y, g.r, 0, TAU); ctx.fill();
+    const f = galaxyFrame(), S = f.size;
+    ctx.save();
+    ctx.translate(f.cx, f.cy); ctx.rotate(f.lean); ctx.scale(1, f.tilt);
+    ctx.globalAlpha = 1;
+    glowDisc(S * 1.12, [[0, 'rgba(80,110,255,.5)'], [.55, 'rgba(60,85,220,.26)'], [1, 'rgba(0,0,0,0)']]);
+    glowDisc(S * .75, [[0, 'rgba(200,120,235,.55)'], [.65, 'rgba(160,90,220,.22)'], [1, 'rgba(0,0,0,0)']]);
+    glowDisc(S * .45, [[0, 'rgba(255,180,130,.85)'], [.55, 'rgba(245,130,110,.35)'], [1, 'rgba(0,0,0,0)']]);
+    const place = g => { const a = g.ang + gSpin * (1.5 - g.d), r = g.d * S; return [Math.cos(a) * r, Math.sin(a) * r]; };
+    for (const g of gal) if (g.kind === 2) {
+      const [x, y] = place(g); ctx.fillStyle = g.c; ctx.globalAlpha = g.a;
+      ctx.fillRect(x - g.s / 2, y - g.s / 2, g.s, g.s / f.tilt * .6);
     }
+    ctx.globalCompositeOperation = 'lighter';
+    for (const g of gal) if (g.kind !== 2) {
+      const [x, y] = place(g); ctx.fillStyle = g.c;
+      ctx.globalAlpha = g.kind === 1 && !reduce ? g.a * (.6 + .4 * Math.sin(sec * 2.2 + g.p)) : g.a;
+      ctx.fillRect(x - g.s / 2, y - g.s / 2, g.s, g.s / f.tilt * .6);
+    }
+    ctx.globalAlpha = 1;
+    glowDisc(S * .24, [[0, 'rgba(255,250,240,1)'], [.3, 'rgba(255,228,190,.75)'], [1, 'rgba(0,0,0,0)']]);
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.restore();
   }
   function draw(t, dt) {
     const sec = t / 1000;
-    if (!reduce) { spin += dt * .018; gSpin += dt * .09; }
-    const rot = spin + (window.scrollY || 0) * .0004;
+    if (!reduce) { spin += dt * .012; gSpin += dt * .07; }
+    const rot = spin + (window.scrollY || 0) * .0003;
     ctx.clearRect(0, 0, w, h);
+
+    if (!reduce) for (let i = 0; i < 4; i++) if (Math.random() < dt * 6) { const st = pick(stars); if (st) st.flash = 1; }
+    for (const st of stars) {
+      const a = st.ang + rot, x = pole.x + Math.cos(a) * st.rad, y = pole.y + Math.sin(a) * st.rad;
+      if (st.flash > 0) st.flash -= dt * 1.4;
+      if (x < -20 || x > w + 20 || y < -20 || y > h + 20) continue;
+      const wave = (Math.sin(st.p + sec * st.s) + 1) / 2;
+      let tw = reduce ? st.a : st.a * (.08 + .92 * Math.pow(wave, 2.2));
+      const fl = Math.max(0, st.flash); tw = Math.max(tw, fl);
+      const col = st.tint || '#FFFFFF';
+      ctx.fillStyle = col; ctx.globalAlpha = tw;
+      ctx.beginPath(); ctx.arc(x, y, st.r, 0, TAU); ctx.fill();
+      if (st.big || fl > 0) {
+        ctx.globalAlpha = Math.min(1, tw * .22 + fl * .35); ctx.beginPath(); ctx.arc(x, y, st.r * (5 + fl * 4), 0, TAU); ctx.fill();
+        if (!reduce && (wave > .6 || fl > 0)) flare(x, y, st.r * (7 * wave + fl * 14) + fl * 4, Math.max((wave - .6) * 2.5, fl), col);
+      }
+    }
 
     drawGalaxy(sec);
 
-    if (!reduce) for (let i = 0; i < 4; i++) if (Math.random() < dt * 6) {
-      const st = stars[Math.floor(Math.random() * stars.length)]; if (st) st.flash = 1;
-    }
-    for (const st of stars) {
-      const a = st.ang + rot;
-      const x = pole.x + Math.cos(a) * st.rad, y = pole.y + Math.sin(a) * st.rad;
-      if (x < -20 || x > w + 20 || y < -20 || y > h + 20) { if (st.flash > 0) st.flash -= dt * 1.4; continue; }
-      const wave = (Math.sin(st.p + sec * st.s) + 1) / 2;
-      let tw = reduce ? st.a : st.a * (.04 + .96 * Math.pow(wave, 2.4));
-      if (st.flash > 0) { st.flash -= dt * 1.4; tw = Math.max(tw, st.flash); }
-      const col = st.tint || base;
-      ctx.fillStyle = col; ctx.globalAlpha = tw;
-      ctx.beginPath(); ctx.arc(x, y, st.r, 0, TAU); ctx.fill();
-      if (st.big || st.flash > 0) {
-        const f = Math.max(0, st.flash);
-        ctx.globalAlpha = Math.min(1, tw * .22 + f * .35); ctx.beginPath(); ctx.arc(x, y, st.r * (5 + f * 4), 0, TAU); ctx.fill();
-        if (!reduce && (wave > .6 || f > 0)) flare(x, y, st.r * (7 * wave + f * 14) + f * 4, Math.max((wave - .6) * 2.5, f), col);
+    const shimmer = (window.scrollY || 0) * .012;
+    for (const g of glitter) {
+      const glint = reduce ? 0 : Math.pow(Math.max(0, Math.sin(g.ph + sec * g.sp + shimmer)), 28);
+      let a = .12 + .88 * glint;
+      if (!reduce && px > -999) {
+        const dx = g.x - px, dy = g.y - py, near = Math.exp(-(dx * dx + dy * dy) / 28000);
+        a = Math.max(a, near * (.35 + .65 * Math.pow(Math.max(0, Math.sin(g.ph * 3 + sec * 9)), 6)));
       }
+      ctx.globalAlpha = a; ctx.fillStyle = g.c; ctx.fillRect(g.x, g.y, g.s, g.s);
+      if (a > .7 && g.s > 1) flare(g.x + g.s / 2, g.y + g.s / 2, g.s * 4 * a, a * .7, g.c);
     }
 
     for (const m of motes) {
       if (!reduce) { m.y += m.vy * dt; m.x += (m.vx + Math.sin(sec + m.p) * 5) * dt; if (m.y < -12) Object.assign(m, newMote(true)); }
-      const a = .22 + .22 * Math.sin(sec * 1.4 + m.p);
       const g = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, m.r * 6);
-      g.addColorStop(0, glow); g.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.globalAlpha = a; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(m.x, m.y, m.r * 6, 0, TAU); ctx.fill();
+      g.addColorStop(0, '#FFE2BD'); g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.globalAlpha = .22 + .22 * Math.sin(sec * 1.4 + m.p); ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(m.x, m.y, m.r * 6, 0, TAU); ctx.fill();
     }
 
     if (!reduce) {
@@ -349,20 +355,17 @@
       for (const s of shooters) {
         s.life += dt;
         const k = s.life / s.max, mag = Math.hypot(s.vx, s.vy);
-        const x = s.x + s.vx * s.life, y = s.y + s.vy * s.life;
-        const tx = x - s.vx / mag * s.len, ty = y - s.vy / mag * s.len;
-        const g = ctx.createLinearGradient(x, y, tx, ty);
-        g.addColorStop(0, base); g.addColorStop(1, 'rgba(0,0,0,0)');
+        const x = s.x + s.vx * s.life, y = s.y + s.vy * s.life, tx = x - s.vx / mag * s.len, ty = y - s.vy / mag * s.len;
+        const g = ctx.createLinearGradient(x, y, tx, ty); g.addColorStop(0, '#FFFFFF'); g.addColorStop(1, 'rgba(0,0,0,0)');
         ctx.globalAlpha = Math.sin(Math.PI * k); ctx.strokeStyle = g; ctx.lineWidth = 1.7;
         ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(tx, ty); ctx.stroke();
-        ctx.fillStyle = base; ctx.beginPath(); ctx.arc(x, y, 1.7, 0, TAU); ctx.fill();
+        ctx.fillStyle = '#FFFFFF'; ctx.beginPath(); ctx.arc(x, y, 1.7, 0, TAU); ctx.fill();
       }
       sparks = sparks.filter(s => s.life < 1);
       for (const s of sparks) {
         s.life += dt * .8; s.x += s.vx * dt; s.y += s.vy * dt; s.vy += 12 * dt;
         const a = 1 - s.life;
-        ctx.fillStyle = s.c; ctx.globalAlpha = a;
-        ctx.beginPath(); ctx.arc(s.x, s.y, s.r * a + .3, 0, TAU); ctx.fill();
+        ctx.fillStyle = s.c; ctx.globalAlpha = a; ctx.beginPath(); ctx.arc(s.x, s.y, s.r * a + .3, 0, TAU); ctx.fill();
         if (s.r > 1.5) flare(s.x, s.y, s.r * 3.5 * a, a * .8, s.c);
       }
     }
@@ -371,23 +374,20 @@
   function addSparks(x, y, n, spread) {
     for (let i = 0; i < n; i++) {
       const ang = rnd(0, TAU), sp = rnd(10, spread);
-      sparks.push({ x, y, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp - 8, r: rnd(.5, 2.2), life: 0,
-                    c: Math.random() < .5 ? glow : tints[Math.floor(Math.random() * tints.length)] });
+      sparks.push({ x, y, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp - 8, r: rnd(.5, 2.2), life: 0, c: pick(tints) });
     }
     if (sparks.length > 350) sparks.splice(0, sparks.length - 350);
   }
   function loop(t) { const dt = Math.min(.05, (t - last) / 1000 || 0); last = t; draw(t, dt); requestAnimationFrame(loop); }
 
   window.addEventListener('resize', resize);
-  const scheme = window.matchMedia('(prefers-color-scheme: dark)');
-  if (scheme.addEventListener) scheme.addEventListener('change', readColors);
   resize();
-
   if (reduce) {
     window.addEventListener('scroll', () => draw(0, 0), { passive: true });
   } else {
     let lastSpark = 0;
     window.addEventListener('pointermove', e => {
+      px = e.clientX; py = e.clientY;
       const now = performance.now();
       if (now - lastSpark > 28) { addSparks(e.clientX, e.clientY, 2, 40); lastSpark = now; }
     }, { passive: true });
@@ -397,7 +397,7 @@
 
   const io = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('seen'); io.unobserve(e.target); } });
-  }, { threshold: 0.12 }) : null;
+  }, { threshold: 0.08 }) : null;
   document.querySelectorAll('section').forEach(s => io ? io.observe(s) : s.classList.add('seen'));
 })();
 </script>
